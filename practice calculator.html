@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Calculator</title>
+
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Added a link to Bootstrap-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+</head>
+<body>
+
+    <div class="jumbotron">
+        <div class="container">
+          <h1 class="text-center">jQuery Calculator</h1>
+          <h3 class="text-center">Perform basic mathematic operations using the power of jQuery!</h3>
+        </div>
+      </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">Calculator</div>
+
+                    <div class="card-body">
+                       <button id="button1" class="btn btn-primary btn-lg number" value="1">1</button>
+                       <button id="button2" class="btn btn-primary btn-lg number" value="2">2</button>
+                       <button id="button3" class="btn btn-primary btn-lg number" value="3">3</button>
+                       <button id="plus-button" class="btn btn-warning btn-lg operator" value="plus">+</button>
+                       <br>
+                       <br>
+                       <button id="button4" class="btn btn-primary btn-lg number" value="4">4</button>
+                       <button id="button5" class="btn btn-primary btn-lg number" value="5">5</button>
+                       <button id="button6" class="btn btn-primary btn-lg number" value="6">6</button>
+                       <button id="minus-button" class="btn btn-warning btn-lg operator" value="minus">-</button>
+                       <br>
+                       <br>
+                       <button id="button7" class="btn btn-primary btn-lg number" value="7">7</button>
+                       <button id="button8" class="btn btn-primary btn-lg number" value="8">8</button>
+                       <button id="button9" class="btn btn-primary btn-lg number" value="9">9</button>
+                       <button id="multiply-button" class="btn btn-warning btn-lg operator" value="multiply">x</button>
+                       <br>
+                       <br>
+                       <button id="button0" class="btn btn-primary btn-lg number" value="0">0</button>
+                       <button id="divide-button" class="btn btn-warning btn-lg operator" value="divide">/</button>
+                       <button id="power-button" class="btn btn-warning btn-lg operator" value="power">^</button>
+                       <button id="equals-button" class="btn btn-warning btn-lg equals" value="equals">=</button>
+                       <br>
+                       <br>
+                       <button id="clear-button" class="btn btn-danger btn-lg clear" value="">Clear</button>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">Result</div>
+                    <div class="card-body">
+                        <h1 id="first-number"></h1>
+                        <h1 id="operator"></h1>
+                        <h1 id="second-number"></h1>
+                        <hr />
+                        <h1 id="result"></h1>
+
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+var haveReset = true;
+var haveFirstNumber = false;
+var haveOperator = false;
+var haveSecondNumber = false;
+var firstNumberStr = "";
+var firstNumber = 0;
+var secondNumberStr = "";
+var secondNumber = 0;
+var operator = "";
+var total = 0;
+
+
+// reset function 
+function initiateState() {
+    haveReset = true;
+    haveFirstNumber = false;
+    haveOperator = false;
+    haveSecondNumber = false;
+
+    firstNumberStr = "";
+    firstNumber = 0;
+    secondNumberStr = "";
+    secondNumber = 0;
+    operator = "";
+    total = 0;
+
+    $("#first-number, #operator, #second-number, #result").empty();
+    };
+
+// on click for first number
+   $(".number").on("click", function() {
+       if(haveReset) {
+        firstNumberStr += $(this).attr("value");
+        console.log("this is the firstNumber string " + firstNumberStr);
+        firstNumber = parseInt(firstNumberStr);
+        $("#first-number").text(firstNumber);
+        console.log("this is firstNumber: " +firstNumber);
+        haveFirstNumber = true;
+        haveReset = false;
+       }
+   });
+
+// on click for operator
+   $(".operator").on("click", function() {
+       if(haveFirstNumber) {
+        operator = $(this).attr("value");
+        console.log("this is the operator: " + operator);
+        $("#operator").text(operator);
+        haveOperator = true;      
+       }
+   });
+
+ // on click for second number
+    $(".number").on("click", function() {
+        if(haveOperator) {
+            secondNumberStr += $(this).attr("value");
+            console.log("this is the secondNumber string " + secondNumberStr);
+            secondNumber = parseInt(secondNumberStr);
+            $("#second-number").text(secondNumber);
+            console.log("this is secondNumber: " + secondNumber);
+            haveSecondNumber = true;           
+        }
+    });
+ 
+// on click for equals
+    $(".equals").on("click", function() {
+        if(haveFirstNumber && haveOperator && haveSecondNumber) {
+            if (operator === "plus") {
+                total = firstNumber + secondNumber;
+                console.log("this is equals: " + total);
+                $("#result").text(total);
+            } else if (operator === "minus") {
+                total = firstNumber - secondNumber;
+                console.log("this is equals: " + total);
+                $("#result").text(total);
+            } else if (operator = "divide") {
+                total = firstNumber / secondNumber;
+                console.log("this is equals: " + total);
+                $("#result").text(total);
+            } else if (operator = "multiply") {
+                total = firstNumber * secondNumber;
+                console.log("this is equals: " + total);
+                $("#result").text(total);
+            } else if (operator = "power") {
+                total = Math.pow(firstNumber,secondNumber);
+                console.log("this is equals: " + total);
+            }
+            };    
+    });
+
+
+// on click for clear
+    $(".clear").on("click", function() {
+        initiateState();
+            });
+
+</script>
+
+</body>
+</html>
